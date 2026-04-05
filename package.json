@@ -1,6 +1,9 @@
 {
   "name": "shafii-madhhab-blog",
   "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
   "devDependencies": {
     "wrangler": "^4.80.0"
   }
