@@ -2,8 +2,7 @@ backend:
   name: github
   repo: shafiimadhhab/shafii-madhhab-blog
   branch: main
-  # base_url points to your Cloudflare Worker which handles the OAuth flow
-  base_url: https://shafii-madhhab-blog.talip-vu.workers.dev
+  # base_url is injected at runtime from window.location.origin in /admin
 
 # Where uploaded images/files are stored in the repo
 media_folder: public/uploads
