@@ -15,9 +15,7 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     react(),
-    sitemap({
-      customPages: [],
-    }),
+    sitemap(),
     mdx(),
   ],
   markdown: {
