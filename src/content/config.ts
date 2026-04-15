@@ -18,8 +18,13 @@ const posts = defineCollection({
         .or(z.string())
         .optional(),
       draft: z.boolean().optional(),
+      category: z.array(z.string()).optional(),
       tags: z.array(z.string()).default(["others"]),
       description: z.string(),
+      type: z.string().optional(),
+      id: z.number().optional(),
+      post_format: z.array(z.string()).optional(),
+      timeline_notification: z.array(z.string()).optional(),
     }),
 });
 

@@ -18,7 +18,7 @@ export async function getStaticPaths() {
   );
 
   const postResult = posts.map(post => ({
-    params: { slug: slugify(post.data) },
+    params: { slug: slugify(post) },
     props: { post },
   }));
 

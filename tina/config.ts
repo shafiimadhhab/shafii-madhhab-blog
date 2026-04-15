@@ -10,10 +10,9 @@ const branch =
 export default defineConfig({
   branch,
 
-  // Get this from tina.io
-  clientId: process.env.PUBLIC_TINA_CLIENT_ID,
-  // Get this from tina.io
-  token: process.env.TINA_TOKEN,
+  // Set these in a local .env file or CI environment when you connect TinaCloud.
+  clientId: process.env.PUBLIC_TINA_CLIENT_ID || "",
+  token: process.env.TINA_TOKEN || "",
 
   build: {
     outputFolder: "admin",
@@ -29,140 +28,124 @@ export default defineConfig({
   schema: {
     collections: [
       {
-        name: "category",
-        label: "Categories",
-        path: "src/content/category",
-        format: "md",
+        name: "post",
+        label: "Beitraege",
+        path: "src/content/posts",
+        format: "mdx",
         fields: [
           {
             type: "string",
-            name: "label",
-            label: "Label",
+            name: "title",
+            label: "Titel",
             isTitle: true,
             required: true,
           },
           {
             type: "string",
             name: "description",
-            label: "Description",
-          },
-          {
-            type: "string",
-            name: "slug",
-            label: "Slug",
-            isTitle: false,
-            required: true,
-            description: "The slug must be the same as the tag name"
-          }
-        ],
-
-      },
-      {
-        name: "page",
-        label: "Pages",
-        path: "src/content/pages",
-        format: "md",
-        fields: [
-          {
-            type: "string",
-            name: "label",
-            label: "Label",
-            isTitle: true,
+            label: "Beschreibung",
+            ui: {
+              component: "textarea",
+            },
             required: true,
           },
-          {
-            type: "string",
-            name: "slug",
-            label: "Slug",
-            isTitle: false,
-            required: true,
-            description: "The slug must be the same as the tag name"
-          }
-        ],
-
-      },
-      {
-        name: "post",
-        label: "Posts",
-        path: "src/content/posts",
-        format: 'mdx',
-        fields: [
           {
             type: "datetime",
             name: "date",
-            label: "Date Posted",
-            required: true,
-          },
-          {
-            type: "string",
-            name: "title",
-            label: "Title",
-            isTitle: true,
+            label: "Veroeffentlichungsdatum",
             required: true,
           },
           {
             type: "boolean",
+            name: "published",
+            label: "Veroeffentlicht",
+            required: false,
+          },
+          {
+            type: "boolean",
+            name: "draft",
+            label: "Entwurf",
+            required: false,
+          },
+          {
+            type: "boolean",
             name: "featured",
-            label: "Featured Post",
+            label: "Hervorgehoben",
+            required: false,
+          },
+          {
+            type: "string",
+            name: "author",
+            label: "Verfasser",
             required: false,
           },
           {
             type: "image",
             name: "image",
-            label: "Bild",
+            label: "Titelbild",
             required: false,
           },
           {
             type: "string",
             name: "slug",
             label: "Slug",
-            isTitle: false,
-            required: true,
+            description: "Optionaler URL-Slug mit fuehrendem Slash, z. B. /witr.",
+            required: false,
           },
           {
-            type: "reference",
+            type: "string",
+            name: "postslug",
+            label: "Legacy Post-Slug",
+            description: "Optionales Alt-Feld fuer den URL-Slug.",
+            required: false,
+          },
+          {
+            type: "string",
+            list: true,
             name: "category",
-            label: "Category",
-            collections: ['category'],
-          },
-          {
-            type: "boolean",
-            name: "published",
-            label: "Published",
+            label: "Kategorien",
             required: false,
           },
-          {
-            type: "boolean",
-            name: "intro",
-            label: "Einleitung",
-            required: false,
-          },
-
-          // array of tags tinacms
           {
             type: "string",
             list: true,
             name: "tags",
-            label: "Tags",
+            label: "Schlagwoerter",
           },
           {
             type: "string",
-            name: "excerpt",
-            label: "Excerpt",
-            ui: {
-              component: 'textarea',
-            },
+            name: "type",
+            label: "Legacy Typ",
+            required: false,
+          },
+          {
+            type: "string",
+            list: true,
+            name: "post_format",
+            label: "Legacy Post-Format",
+            required: false,
+          },
+          {
+            type: "string",
+            list: true,
+            name: "timeline_notification",
+            label: "Legacy Timeline Notification",
+            required: false,
           },
           {
             type: "rich-text",
+            label: "Inhalt",
             name: "body",
-            label: "Body",
             isBody: true,
           },
         ],
         ui: {
-          // This is an DEMO router. You can remove this to fit your site
-          router: ({ document }) => `/${document._sys.filename}`,
+          router: ({ document }) => {
+            const rawSlug =
+              document.slug || document.postslug || document._sys.filename;
+            const normalized = String(rawSlug).replace(/^\/+|\/+$/g, "");
+            return `/${normalized}`;
+          },
         },
       },
     ],
