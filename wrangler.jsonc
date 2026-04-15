@@ -1,0 +1,16 @@
+{
+  // Cloudflare Workers configuration for shafii-madhhab-blog
+  // The oauth-worker.js handles /auth and /callback for Decap CMS login.
+  // All other routes fall through to the static Astro build output in ./dist
+  "name": "shafii-madhhab-blog",
+  "main": "oauth-worker.js",
+  "compatibility_date": "2024-09-23",
+  "assets": {
+    // Points to Astro's build output directory
+    "directory": "./dist",
+    "binding": "ASSETS"
+  }
+  // After deploying, set secrets with:
+  //   wrangler secret put GITHUB_CLIENT_ID
+  //   wrangler secret put GITHUB_CLIENT_SECRET
+}

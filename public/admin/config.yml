@@ -1,0 +1,70 @@
+backend:
+  name: github
+  repo: shafiimadhhab/shafii-madhhab-blog
+  branch: main
+  # base_url points to your Cloudflare Worker which handles the OAuth flow
+  base_url: https://shafii-madhhab-blog.talip-vu.workers.dev
+
+# Where uploaded images/files are stored in the repo
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: Beiträge
+    folder: src/content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Veröffentlichungsdatum", name: date, widget: datetime }
+      - {
+          label: "Beschreibung",
+          name: description,
+          widget: string,
+          required: false,
+        }
+      - {
+          label: "Verfasser",
+          name: author,
+          widget: string,
+          default: "Ibn Abdullah",
+          required: false,
+        }
+      - {
+          label: "Veröffentlicht",
+          name: published,
+          widget: boolean,
+          default: true,
+          required: false,
+        }
+      - {
+          label: "Entwurf",
+          name: draft,
+          widget: boolean,
+          default: false,
+          required: false,
+        }
+      - {
+          label: "Hervorgehoben",
+          name: featured,
+          widget: boolean,
+          default: false,
+          required: false,
+        }
+      - {
+          label: "Titelbild",
+          name: image,
+          widget: image,
+          required: false,
+        }
+      - {
+          label: "Schlagwörter",
+          name: tags,
+          widget: list,
+          default: ["others"],
+          required: false,
+        }
+      - { label: "Inhalt", name: body, widget: markdown }

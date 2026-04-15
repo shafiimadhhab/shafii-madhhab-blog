@@ -39,8 +39,5 @@ export default defineConfig({
     },
   },
   scopedStyleStrategy: "where",
-  redirects: {
-    "/admin": "/admin/index.html",
-  },
   prefetch: true,
 });

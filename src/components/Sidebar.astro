@@ -1,0 +1,112 @@
+---
+import { getCollection } from "astro:content";
+import getUniqueTags from "@utils/getUniqueTags";
+import { slugifyStr } from "@utils/slugify";
+
+const posts = await getCollection("posts");
+const tags = getUniqueTags(posts);
+
+// A small curated selection of hadith relevant to the blog's fiqh content.
+// Displayed rotating by day-of-year so it changes daily without any API call.
+const hadiths = [
+  {
+    text: "Die Taten werden nur nach den Absichten beurteilt.",
+    source: "Bukhārī & Muslim",
+  },
+  {
+    text: "Die Reinheit ist die Hälfte des Glaubens.",
+    source: "Muslim",
+  },
+  {
+    text: "Das Gebet ist die Säule der Religion.",
+    source: "Bayhaqī",
+  },
+  {
+    text: "Wer von euch ein Unrecht sieht, soll es mit seiner Hand ändern; wenn er das nicht kann, dann mit seiner Zunge; wenn er das nicht kann, dann in seinem Herzen – und das ist der schwächste Glaube.",
+    source: "Muslim",
+  },
+  {
+    text: "Allah liebt es, wenn jemand eine Tat verrichtet, dass er sie perfekt ausführt.",
+    source: "Bayhaqī",
+  },
+  {
+    text: "Der Muslim ist derjenige, von dessen Zunge und Hand die Muslime sicher sind.",
+    source: "Bukhārī & Muslim",
+  },
+  {
+    text: "Keiner von euch glaubt vollständig, bis er seinem Bruder das liebt, was er sich selbst liebt.",
+    source: "Bukhārī & Muslim",
+  },
+];
+
+// Pick hadith based on day of year so it rotates daily
+const now = new Date();
+const start = new Date(now.getFullYear(), 0, 0);
+const dayOfYear = Math.floor(
+  (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+);
+const hadith = hadiths[dayOfYear % hadiths.length];
+---
+
+<aside class="sidebar">
+  <!-- Tag cloud -->
+  <div class="widget">
+    <h3 class="widget-title">Themen</h3>
+    <div class="tag-cloud">
+      {
+        tags.map(tag => (
+          <a href={`/tags/${slugifyStr(tag)}`} class="tag-pill">
+            {tag}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Daily hadith -->
+  <div class="widget hadith-widget">
+    <h3 class="widget-title">Hadith des Tages</h3>
+    <blockquote class="hadith-text">{hadith.text}</blockquote>
+    <p class="hadith-source">— {hadith.source}</p>
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    @apply flex flex-col gap-6;
+  }
+
+  .widget {
+    @apply rounded-lg border border-skin-line bg-skin-card p-5;
+  }
+
+  .widget-title {
+    @apply mb-3 border-b border-skin-line pb-2 text-lg font-semibold
+      tracking-wide text-skin-accent;
+  }
+
+  /* Tag cloud */
+  .tag-cloud {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .tag-pill {
+    @apply rounded-full border border-skin-line bg-skin-fill px-3 py-1
+      text-sm text-skin-base transition-colors
+      hover:border-skin-accent hover:bg-skin-accent hover:text-skin-inverted;
+  }
+
+  /* Hadith box */
+  .hadith-widget {
+    @apply bg-skin-card-muted;
+  }
+
+  .hadith-text {
+    @apply mb-3 border-l-4 border-skin-accent pl-3 text-base italic
+      leading-relaxed text-skin-base opacity-90;
+  }
+
+  .hadith-source {
+    @apply text-right text-sm font-semibold text-skin-accent;
+  }
+</style>

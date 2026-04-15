@@ -2,32 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* primary #5AA02D */
-/* secondary #B2D858 */
-/* #C8C8C9 */
-/* bg #F1F6ED */
-/* teyt #132209 */
-
+/*
+  Color palette — parchment / warm manuscript aesthetic
+  Light:  parchment background, dark-brown text, warm gold accent
+  Dark:   deep sepia background, aged-paper text, warm amber accent
+*/
 
 @layer base {
 
   :root,
   html[data-theme="light"] {
-    --color-fill: 241,246,238;
-    --color-text-base: 19,28,13;
-    --color-accent: 89,159,45;
-    --color-card: 230, 230, 230;
-    --color-card-muted: 205, 205, 205;
-    --color-border: 236, 233, 233;
+    --color-fill:        244, 235, 217;   /* warm parchment   #F4EBD9 */
+    --color-text-base:   44,  24,  16;   /* dark oak brown   #2C1810 */
+    --color-accent:      139, 105,  20;  /* manuscript gold  #8B6914 */
+    --color-card:        237, 224, 200;  /* aged paper       #EDE0C8 */
+    --color-card-muted:  200, 184, 154;  /* warm tan         #C8B89A */
+    --color-border:      196, 175, 140;  /* parchment edge   #C4AF8C */
   }
 
   html[data-theme="dark"] {
-    --color-fill: 12,17,9;
-    --color-text-base:  233,242,227;
-    --color-accent: 140,210,96;
-    --color-card: 52, 63, 96;
-    --color-card-muted: 138, 51, 2;
-    --color-border: 233,242,227;
+    --color-fill:        28,  20,  12;   /* deep sepia       #1C140C */
+    --color-text-base:   232, 220, 195;  /* aged paper       #E8DCC3 */
+    --color-accent:      200, 163,  80;  /* warm amber       #C8A350 */
+    --color-card:        48,  36,  20;   /* dark parchment   #302414 */
+    --color-card-muted:  70,  54,  30;   /* muted sepia      #46361E */
+    --color-border:      100,  80,  50;  /* dark edge        #645032 */
   }
 
   #sun-svg,
@@ -38,64 +37,84 @@
   html[data-theme="dark"] #sun-svg {
     display: block;
   }
+
   body {
-    @apply flex min-h-[100svh] flex-col bg-skin-fill font-mono text-skin-base 
+    @apply flex min-h-[100svh] flex-col bg-skin-fill font-serif text-skin-base
     selection:bg-skin-accent selection:bg-opacity-70 selection:text-skin-inverted;
   }
+
   section,
   footer {
     @apply mx-auto max-w-3xl px-4;
   }
+
   a {
-    @apply outline-2 outline-offset-1 outline-skin-fill 
+    @apply outline-2 outline-offset-1 outline-skin-fill
     focus-visible:no-underline focus-visible:outline-dashed;
   }
+
   svg {
     @apply inline-block h-6 w-6 fill-skin-base group-hover:fill-skin-accent;
   }
+
   svg.icon-tabler {
-    @apply inline-block h-6 w-6 scale-125 fill-transparent 
-    stroke-current stroke-2 opacity-90 group-hover:fill-transparent 
+    @apply inline-block h-6 w-6 scale-125 fill-transparent
+    stroke-current stroke-2 opacity-90 group-hover:fill-transparent
     sm:scale-110;
   }
+
+  /* Arabic text — right-to-left, Noto Naskh Arabic */
+  .arabic {
+    font-family: theme("fontFamily.arabic");
+    direction: rtl;
+    text-align: right;
+    line-height: 2;
+    font-size: 1.15em;
+  }
+
   .prose {
-    @apply prose-headings:!mb-3 prose-headings:!text-skin-base 
-    prose-h3:italic prose-p:!text-skin-base 
+    @apply prose-headings:!mb-3 prose-headings:!text-skin-base
+    prose-h3:italic prose-p:!text-skin-base
     prose-a:!text-skin-base prose-a:!decoration-dashed prose-a:underline-offset-8
     hover:prose-a:text-skin-accent prose-blockquote:!border-l-skin-accent
     prose-blockquote:border-opacity-50 prose-blockquote:opacity-80
     prose-figcaption:!text-skin-base prose-figcaption:opacity-70
     prose-strong:!text-skin-base
 
-    
-    prose-code:rounded prose-code:bg-skin-card 
-    prose-code:bg-opacity-75 prose-code:p-1 prose-code:!text-skin-base 
+    prose-code:rounded prose-code:bg-skin-card
+    prose-code:bg-opacity-75 prose-code:p-1 prose-code:!text-skin-base
     prose-code:before:!content-[''] prose-code:after:!content-['']
-    prose-pre:!text-skin-base prose-ol:!text-skin-base 
+    prose-pre:!text-skin-base prose-ol:!text-skin-base
     prose-ul:overflow-x-clip prose-ul:!text-skin-base prose-li:marker:!text-skin-accent
     prose-table:text-skin-base prose-th:border
-    prose-th:border-skin-line prose-td:border 
-    prose-td:border-skin-line prose-img:mx-auto 
-    prose-img:!mt-2 prose-img:border-2 
+    prose-th:border-skin-line prose-td:border
+    prose-td:border-skin-line prose-img:mx-auto
+    prose-img:!mt-2 prose-img:border-2
     prose-img:border-skin-line prose-hr:!border-skin-line;
   }
+
   .prose a {
     @apply break-words hover:!text-skin-accent;
   }
+
   .prose thead th:first-child,
   tbody td:first-child,
   tfoot td:first-child {
     padding-left: 0.5714286em;
   }
+
   .prose h2#table-of-contents {
     @apply mb-2;
   }
+
   .prose details {
     @apply inline-block cursor-pointer select-none text-skin-base;
   }
+
   .prose summary {
     @apply focus-outline;
   }
+
   .prose h2#table-of-contents + p {
     @apply hidden;
   }
@@ -105,22 +124,18 @@
     overflow-y: scroll;
   }
 
-  /* width */
   ::-webkit-scrollbar {
     @apply w-3;
   }
 
-  /* Track */
   ::-webkit-scrollbar-track {
     @apply bg-skin-fill;
   }
 
-  /* Handle */
   ::-webkit-scrollbar-thumb {
     @apply bg-skin-card;
   }
 
-  /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-skin-card-muted;
   }
@@ -141,5 +156,32 @@
   }
   .focus-outline {
     @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
+  }
+
+  /* ===== Sidebar layout ===== */
+  /* Used on homepage and posts-list pages to create a two-column layout */
+  .page-with-sidebar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 72rem; /* ~6xl */
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 960px) {
+    .page-with-sidebar {
+      grid-template-columns: minmax(0, 1fr) 280px;
+    }
+  }
+
+  /* When sections are children of the sidebar-layout wrapper, remove their
+     own max-width/padding so the grid column controls the width instead. */
+  .page-with-sidebar > .main-col > section {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
