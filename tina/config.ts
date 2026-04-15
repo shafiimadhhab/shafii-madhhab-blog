@@ -11,7 +11,8 @@ export default defineConfig({
   branch,
 
   // Set these in a local .env file or CI environment when you connect TinaCloud.
-  clientId: process.env.PUBLIC_TINA_CLIENT_ID || "",
+  clientId:
+    process.env.PUBLIC_TINA_CLIENT_ID || process.env.TINA_CLIENT_ID || "",
   token: process.env.TINA_TOKEN || "",
 
   build: {
