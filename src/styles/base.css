@@ -3,30 +3,30 @@
 @tailwind utilities;
 
 /*
-  Color palette — parchment / warm manuscript aesthetic
-  Light:  parchment background, dark-brown text, warm gold accent
-  Dark:   deep sepia background, aged-paper text, warm amber accent
+  Color palette — matching shafii-madhhab.de
+  Light:  white background, dark text, cyan-blue accent (#0693e3)
+  Dark:   deep navy background, light text, bright blue accent
 */
 
 @layer base {
 
   :root,
   html[data-theme="light"] {
-    --color-fill:        244, 235, 217;   /* warm parchment   #F4EBD9 */
-    --color-text-base:   44,  24,  16;   /* dark oak brown   #2C1810 */
-    --color-accent:      139, 105,  20;  /* manuscript gold  #8B6914 */
-    --color-card:        237, 224, 200;  /* aged paper       #EDE0C8 */
-    --color-card-muted:  200, 184, 154;  /* warm tan         #C8B89A */
-    --color-border:      196, 175, 140;  /* parchment edge   #C4AF8C */
+    --color-fill:        255, 255, 255;  /* white            #FFFFFF */
+    --color-text-base:   33,  33,  33;  /* near-black        #212121 */
+    --color-accent:      6,  147, 227;  /* vivid cyan-blue   #0693E3 */
+    --color-card:        247, 247, 247; /* light gray        #F7F7F7 */
+    --color-card-muted:  235, 235, 235; /* muted gray        #EBEBEB */
+    --color-border:      220, 220, 220; /* border gray       #DCDCDC */
   }
 
   html[data-theme="dark"] {
-    --color-fill:        28,  20,  12;   /* deep sepia       #1C140C */
-    --color-text-base:   232, 220, 195;  /* aged paper       #E8DCC3 */
-    --color-accent:      200, 163,  80;  /* warm amber       #C8A350 */
-    --color-card:        48,  36,  20;   /* dark parchment   #302414 */
-    --color-card-muted:  70,  54,  30;   /* muted sepia      #46361E */
-    --color-border:      100,  80,  50;  /* dark edge        #645032 */
+    --color-fill:        15,  23,  42;  /* deep navy         #0F172A */
+    --color-text-base:   226, 232, 240; /* slate-200         #E2E8F0 */
+    --color-accent:      56,  189, 248; /* sky-400           #38BDF8 */
+    --color-card:        30,  41,  59;  /* slate-800         #1E293B */
+    --color-card-muted:  51,  65,  85;  /* slate-700         #334155 */
+    --color-border:      71,  85, 105;  /* slate-600         #475569 */
   }
 
   #sun-svg,

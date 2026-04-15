@@ -27,6 +27,12 @@ export const SOCIALS: SocialObjects = [
     active: true,
   },
   {
+    name: "Instagram",
+    href: "https://www.instagram.com/shafii_madhhab_de",
+    linkTitle: `${SITE.title} auf Instagram`,
+    active: true,
+  },
+  {
     name: "Telegram",
     href: "https://t.me/shafiimadhhab",
     linkTitle: `${SITE.title} auf Telegram`,
@@ -36,6 +42,6 @@ export const SOCIALS: SocialObjects = [
     name: "RSS",
     href: "/rss.xml",
     linkTitle: `${SITE.title} als RSS Feed`,
-    active: true,
+    active: false,
   },
 ];
