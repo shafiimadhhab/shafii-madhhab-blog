@@ -8,38 +8,28 @@ export interface Props {
 }
 
 const { activeNav } = Astro.props;
+const isHome = Astro.url.pathname === "/";
 ---
 
 <header>
   <a id="skip-to-content" href="#main-content">Skip to content</a>
   <div class="nav-container">
     <div class="top-nav-wrap">
-      <a href="/" class="logo whitespace-nowrap">
-        <!-- {
-          LOGO_IMAGE.enable ? (
+      {!isHome && (
+        <a href="/" class="logo whitespace-nowrap">
+          <div class="flex items-center">
             <img
               src={`/assets/${LOGO_IMAGE.svg ? "logo.svg" : "logo.png"}`}
               alt={SITE.title}
               width={LOGO_IMAGE.width}
               height={LOGO_IMAGE.height}
             />
-          ) : (
-            SITE.title
-          )
-        } -->
-
-        <div class="flex items-center">
-          <img
-            src={`/assets/${LOGO_IMAGE.svg ? "logo.svg" : "logo.png"}`}
-            alt={SITE.title}
-            width={LOGO_IMAGE.width}
-            height={LOGO_IMAGE.height}
-          />
-          <h1 class="ml-2">
-            {SITE.title}
-          </h1>
-        </div>
-      </a>
+            <span class="ml-2 site-title">
+              Shāfi'ī-Madhhab <img src="/assets/flag-palestine.svg" alt="Palästina-Flagge" class="header-flag" />
+            </span>
+          </div>
+        </a>
+      )}
       <nav id="nav-menu">
         <button
           class="hamburger-menu focus-outline"
@@ -137,6 +127,17 @@ const { activeNav } = Astro.props;
   }
   .logo {
     @apply absolute py-1 text-xl font-semibold sm:static sm:text-2xl;
+  }
+  .site-title {
+    @apply text-xl font-semibold sm:text-2xl;
+  }
+  .header-flag {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.57em;
+    vertical-align: middle;
+    margin-bottom: 0.12em;
+    border-radius: 2px;
   }
   .hamburger-menu {
     @apply self-end p-2 sm:hidden;
