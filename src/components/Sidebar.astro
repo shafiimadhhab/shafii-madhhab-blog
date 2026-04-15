@@ -1,26 +1,40 @@
 ---
-import { getCollection } from "astro:content";
-import getUniqueTags from "@utils/getUniqueTags";
-import { slugifyStr } from "@utils/slugify";
-
-const posts = await getCollection("posts");
-const tags = getUniqueTags(posts);
+// No dynamic data needed — static category links and notice text
 ---
 
 <aside class="sidebar">
-  <!-- Tag cloud -->
+
+  <!-- Category navigation -->
   <div class="widget">
-    <h3 class="widget-title">Themen</h3>
-    <div class="tag-cloud">
-      {
-        tags.map(tag => (
-          <a href={`/tags/${slugifyStr(tag)}`} class="tag-pill">
-            {tag}
-          </a>
-        ))
-      }
-    </div>
+    <h3 class="widget-title">Kategorien</h3>
+    <nav class="category-nav">
+      <a href="/tags/reinheit">Ṭahārah</a>
+      <a href="/tags/gebet">Gebet</a>
+      <a href="/tags/zakah">Zakāt</a>
+      <a href="/tags/fasten">Fasten</a>
+      <a href="/tags/nahrung">Ernährung</a>
+    </nav>
   </div>
+
+  <!-- Notice / info box -->
+  <div class="widget notice-widget">
+    <p>
+      Falls euch Fehler auffallen, so meldet diese bitte auf der
+      <a href="https://www.instagram.com/shafii_madhhab_de" target="_blank" rel="noopener">Instagram-Seite</a>!
+    </p>
+    <p>
+      Folgt am besten der Instagram- und
+      <a href="https://t.me/shafiimadhhab" target="_blank" rel="noopener">Telegram-Seite</a>,
+      weil dort dann auch auf mögliche kritischere Fehler aufmerksam gemacht
+      werden kann inshāAllāh! Die allgemeine Kontaktaufnahme ist über Instagram möglich.
+    </p>
+    <p>
+      Bitte lest euch, für ein besseres Verständnis der Inhalte, das Vorwort
+      zu dieser Seite durch!<br />
+      <a href="/vorwort-zu-dieser-seite">Hier: Vorwort zu dieser Seite</a>
+    </p>
+  </div>
+
 </aside>
 
 <style>
@@ -37,14 +51,27 @@ const tags = getUniqueTags(posts);
       tracking-wide text-skin-accent;
   }
 
-  /* Tag cloud */
-  .tag-cloud {
-    @apply flex flex-wrap gap-2;
+  /* Category nav */
+  .category-nav {
+    @apply flex flex-col gap-1;
   }
 
-  .tag-pill {
-    @apply rounded-full border border-skin-line bg-skin-fill px-3 py-1
-      text-sm text-skin-base transition-colors
-      hover:border-skin-accent hover:bg-skin-accent hover:text-skin-inverted;
+  .category-nav a {
+    @apply block rounded px-2 py-2 text-sm font-medium text-skin-base
+      transition-colors hover:bg-skin-accent hover:text-skin-inverted;
+  }
+
+  /* Notice box */
+  .notice-widget {
+    @apply bg-skin-card-muted text-sm leading-relaxed text-skin-base;
+  }
+
+  .notice-widget p {
+    @apply mb-3 last:mb-0;
+  }
+
+  .notice-widget a {
+    @apply font-semibold text-skin-accent underline underline-offset-2
+      hover:opacity-80;
   }
 </style>
