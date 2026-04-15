@@ -27,7 +27,9 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <!-- Main content column -->
     <div class="main-col">
       <section id="hero">
-        <h1>Shāfi'ī-Madhhab 🇵🇸</h1>
+        <h1>
+          Shāfi'ī-Madhhab <span class="emoji-flag" aria-label="Palestine flag">🇵🇸</span>
+        </h1>
 
         <p>
           Fiqh gemäß den Methoden von Imām ash-Shāfi'ī und denjenigen, die ihm
@@ -108,6 +110,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   }
   #hero h1 {
     @apply my-4 text-3xl font-bold sm:my-8 sm:text-5xl;
+  }
+  #hero .emoji-flag {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+      sans-serif;
   }
   #hero p {
     @apply my-2;
