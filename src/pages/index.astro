@@ -28,7 +28,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <div class="main-col">
       <section id="hero">
         <h1>
-          Shāfi'ī-Madhhab <span class="emoji-flag" aria-label="Palestine flag">🇵🇸</span>
+          Shāfi'ī-Madhhab <img src="/assets/flag-palestine.svg" alt="Palästina-Flagge" class="flag-img" />
         </h1>
 
         <p>
@@ -111,9 +111,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   #hero h1 {
     @apply my-4 text-3xl font-bold sm:my-8 sm:text-5xl;
   }
-  #hero .emoji-flag {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
-      sans-serif;
+  #hero .flag-img {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.57em;
+    vertical-align: middle;
+    margin-bottom: 0.12em;
+    border-radius: 2px;
   }
   #hero p {
     @apply my-2;
