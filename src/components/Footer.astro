@@ -18,7 +18,14 @@ const { noMarginTop = false } = Astro.props;
     <div class="copyright-wrapper">
       <span>Copyright &#169; {currentYear}</span>
       <span class="separator">&nbsp;|&nbsp;</span>
-      <span>Shāfi'ī-Madhhab 🇵🇸</span>
+      <span class="site-name">
+        Shāfi’ī-Madhhab
+        <img
+          src="/assets/flag-palestine.svg"
+          alt="Palästina-Flagge"
+          class="footer-flag"
+        />
+      </span>
     </div>
   </div>
 </footer>
@@ -38,6 +45,15 @@ const { noMarginTop = false } = Astro.props;
   }
   .copyright-wrapper {
     @apply my-2 flex flex-col items-center whitespace-nowrap sm:flex-row;
+  }
+  .site-name {
+    @apply inline-flex items-center gap-2;
+  }
+  .footer-flag {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.57em;
+    border-radius: 2px;
   }
   .separator {
     @apply hidden sm:inline;

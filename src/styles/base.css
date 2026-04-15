@@ -184,4 +184,8 @@
     padding-left: 0;
     padding-right: 0;
   }
+
+  .page-with-sidebar > .sidebar {
+    @apply pt-8 pb-12;
+  }
 }

@@ -3,8 +3,8 @@ import type { Site, SocialObjects } from "./types";
 export const SITE: Site = {
   website: "https://shafii-madhhab.de",
   author: "Ibn Abdullah",
-  desc: "Fiqh gemäß den Methoden von Imām ash-Shāfi'ī und denjenigen, die ihm darin folgten.",
-  title: "Shāfi'ī-Madhhab 🇵🇸",
+  desc: "Fiqh gemäß den Methoden von Imām ash-Shāfi’ī und denjenigen, die ihm darin folgten.",
+  title: "Shāfi’ī-Madhhab 🇵🇸",
   ogImage: "/assets/logo-big.png",
   lightAndDarkMode: true,
   postPerPage: 3,
