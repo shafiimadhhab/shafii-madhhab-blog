@@ -65,6 +65,51 @@ const getPostFilenameSeed = (values: Record<string, unknown>) => {
 const getPostFilename = (values: Record<string, unknown>) =>
   normalizePostFilename(getPostFilenameSeed(values)) || "post";
 
+const getPostVisibilityTag = (values: Record<string, unknown>) => {
+  const isDraft = values.draft === true;
+  const isPublished = values.published === true;
+
+  return isDraft || !isPublished ? "DRAFT" : "LIVE";
+};
+
+const formatAdminTimestamp = (value?: string) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+};
+
+const getPostAdminTitle = (
+  values: Record<string, unknown>,
+  updatedAt?: string
+) => {
+  const title =
+    typeof values.title === "string" && values.title.trim()
+      ? values.title.trim()
+      : "Neuer Beitrag";
+  const timestamp = formatAdminTimestamp(updatedAt);
+  const parts = [`[${getPostVisibilityTag(values)}]`, title];
+
+  if (timestamp) {
+    parts.push(`geaendert ${timestamp}`);
+  }
+
+  return parts.join(" · ");
+};
+
 type PostCollectionUiItem = {
   _sys?: {
     filename?: string;
@@ -106,12 +151,39 @@ export default defineConfig({
         label: "Beiträge",
         path: "src/content/posts",
         format: "mdx",
+        defaultItem: () => {
+          const updatedAt = new Date().toISOString();
+
+          return {
+            draft: true,
+            published: false,
+            updatedAt,
+            adminTitle: getPostAdminTitle(
+              {
+                draft: true,
+                published: false,
+                title: "Neuer Beitrag",
+              },
+              updatedAt
+            ),
+          };
+        },
         fields: [
+          {
+            type: "string",
+            name: "adminTitle",
+            label: false,
+            isTitle: true,
+            required: true,
+            searchable: false,
+            ui: {
+              component: "hidden",
+            },
+          },
           {
             type: "string",
             name: "title",
             label: "Titel",
-            isTitle: true,
             required: true,
             searchable: true,
           },
@@ -132,6 +204,16 @@ export default defineConfig({
             label: "Veroeffentlichungsdatum",
             required: true,
             searchable: false,
+          },
+          {
+            type: "datetime",
+            name: "updatedAt",
+            label: "Zuletzt geaendert",
+            required: false,
+            searchable: false,
+            ui: {
+              component: "hidden",
+            },
           },
           {
             type: "boolean",
@@ -238,6 +320,25 @@ export default defineConfig({
             readonly: true,
             description:
               "Wird automatisch aus Slug oder Titel erzeugt, damit die Dateiliste lesbar bleibt.",
+          },
+          beforeSubmit: async ({
+            values,
+          }: {
+            values: Record<string, unknown>;
+          }) => {
+            const updatedAt = new Date().toISOString();
+
+            return {
+              ...values,
+              updatedAt,
+              adminTitle: getPostAdminTitle(
+                {
+                  ...values,
+                  updatedAt,
+                },
+                updatedAt
+              ),
+            };
           },
           router: ({ document }: { document: PostCollectionUiItem }) => {
             const rawSlug =

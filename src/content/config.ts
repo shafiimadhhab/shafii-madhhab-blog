@@ -5,9 +5,11 @@ const posts = defineCollection({
   type: "content",
   schema: ({ image }) =>
     z.object({
+      adminTitle: z.string().optional(),
       published: z.boolean().default(false),
       author: z.string().default(SITE.author),
       date: z.date(),
+      updatedAt: z.coerce.date().optional(),
       title: z.string(),
       postslug: z.string().optional(),
       featured: z.boolean().default(false),
