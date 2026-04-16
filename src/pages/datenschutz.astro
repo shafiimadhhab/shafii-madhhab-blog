@@ -1,0 +1,144 @@
+---
+import { SITE } from "@config";
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+---
+
+<Layout title={`Datenschutzerklärung | ${SITE.title}`}>
+  <Header />
+  <main id="main-content">
+    <h1>Datenschutzerklärung</h1>
+
+    <h2>Automatische Datenspeicherung</h2>
+    <p>
+      Wenn Sie diese Website besuchen, speichert der Webserver automatisch
+      bestimmte Informationen, darunter:
+    </p>
+    <ul>
+      <li>aufgerufene Webseiten-URL</li>
+      <li>Browsertyp und -version</li>
+      <li>verwendetes Betriebssystem</li>
+      <li>Referrer-URL</li>
+      <li>Hostname und IP-Adresse des Geräts</li>
+      <li>Datum und Uhrzeit des Zugriffs</li>
+    </ul>
+    <p>
+      Diese Daten werden in Dateien (Webserver-Logfiles) für zwei Wochen
+      gespeichert und anschließend automatisch gelöscht. Die Logs werden nicht
+      weitergegeben, jedoch kann ein Zugriff im Falle rechtswidriger Aktivitäten
+      nicht ausgeschlossen werden.
+    </p>
+
+    <h2>Cookies</h2>
+    <p>
+      Diese Website verwendet HTTP-Cookies, um benutzerspezifische Daten zu
+      speichern. Cookies sind kleine Textdateien, die im Browser gespeichert
+      werden und dazu dienen, Präferenzen und Einstellungen zu merken.
+    </p>
+    <h3>Cookie-Arten</h3>
+    <ul>
+      <li>
+        <strong>Notwendige Cookies:</strong> Ermöglichen grundlegende Funktionen
+      </li>
+      <li>
+        <strong>Funktionale Cookies:</strong> Verfolgen das Nutzerverhalten und die
+        Website-Performance
+      </li>
+      <li>
+        <strong>Targeting-Cookies:</strong> Verbessern die Nutzererfahrung durch
+        gespeicherte Präferenzen
+      </li>
+      <li>
+        <strong>Werbe-Cookies:</strong> Liefern personalisierte Werbung
+      </li>
+    </ul>
+    <p>
+      Cookies können über die Browsereinstellungen verwaltet werden (Chrome,
+      Safari, Firefox, Internet Explorer, Microsoft Edge).
+    </p>
+
+    <h2>Speicherung personenbezogener Daten</h2>
+    <p>
+      Über Formulare oder Kommentare übermittelte persönliche Informationen
+      werden ausschließlich für die angegebenen Zwecke verwendet und nicht an
+      Dritte weitergegeben, es sei denn, dies ist gesetzlich vorgeschrieben.
+      E-Mail-Kommunikation außerhalb der Website kann keine verschlüsselte oder
+      geschützte Übertragung garantieren.
+    </p>
+
+    <h2>Ihre Rechte gemäß DSGVO</h2>
+    <p>
+      Gemäß DSGVO und österreichischem Datenschutzrecht haben Sie folgende
+      Rechte:
+    </p>
+    <ul>
+      <li>Auskunft und Berichtigung (Art. 16)</li>
+      <li>Löschung / „Recht auf Vergessenwerden" (Art. 17)</li>
+      <li>Einschränkung der Verarbeitung (Art. 18)</li>
+      <li>Datenübertragbarkeit (Art. 20)</li>
+      <li>Widerspruch (Art. 21)</li>
+    </ul>
+    <p>
+      Beschwerden können bei der österreichischen Datenschutzbehörde unter
+      <a href="https://www.dsb.gv.at" target="_blank" rel="noopener noreferrer"
+        >dsb.gv.at</a
+      > eingereicht werden.
+    </p>
+
+    <h2>Drittanbieter-Dienste</h2>
+    <h3>Google Fonts</h3>
+    <p>
+      Diese Website verwendet Google Fonts für die Typografie. Anfragen nach CSS
+      und Schriften werden vollkommen getrennt von allen anderen Google-Diensten
+      durchgeführt. Schriftarten werden für ein Jahr gecacht, um die
+      Ladezeiten zu verbessern.
+    </p>
+
+    <h2>TLS-Verschlüsselung</h2>
+    <p>
+      Diese Website verwendet HTTPS-Verschlüsselung (TLS-Protokoll) für eine
+      sichere Datenübertragung gemäß Art. 25 DSGVO.
+    </p>
+
+    <h2>Kontakt</h2>
+    <p>
+      <strong>Shāfi'ī-Madhhab</strong><br />
+      <a href="mailto:kontakt@shafii-madhhab.de">kontakt@shafii-madhhab.de</a>
+    </p>
+    <p>
+      Bei Fragen oder Anliegen zur Datenverarbeitung können Sie sich an diese
+      Adresse oder an die österreichische Datenschutzbehörde wenden.
+    </p>
+
+    <p class="version-note">Stand: 11.02.2020</p>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  #main-content {
+    @apply mx-auto w-full max-w-3xl px-4 pb-12 pt-4;
+  }
+  #main-content h1 {
+    @apply mb-6 text-2xl font-semibold sm:text-3xl;
+  }
+  #main-content h2 {
+    @apply mb-3 mt-8 text-xl font-semibold;
+  }
+  #main-content h3 {
+    @apply mb-2 mt-4 text-lg font-medium;
+  }
+  #main-content p {
+    @apply mb-4 leading-relaxed;
+  }
+  #main-content ul {
+    @apply mb-4 ml-6 list-disc space-y-1;
+  }
+  #main-content a {
+    @apply text-skin-accent underline hover:no-underline;
+  }
+  .version-note {
+    @apply mt-10 text-sm opacity-50;
+  }
+</style>

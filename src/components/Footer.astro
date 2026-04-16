@@ -26,6 +26,13 @@ const { noMarginTop = false } = Astro.props;
           class="footer-flag"
         />
       </span>
+      <span class="separator">&nbsp;|&nbsp;</span>
+      <a href="/datenschutz" class="privacy-link" title="Datenschutzerklärung">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="privacy-icon">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14c-2.33 0-4.31-1.27-5.5-3.13C6.5 13.75 9.42 13 12 13s5.5.75 5.5 2.87C16.31 17.73 14.33 19 12 19z"/>
+        </svg>
+        <span class="privacy-label">Datenschutz</span>
+      </a>
     </div>
   </div>
 </footer>
@@ -56,6 +63,15 @@ const { noMarginTop = false } = Astro.props;
     border-radius: 2px;
   }
   .separator {
+    @apply hidden sm:inline;
+  }
+  .privacy-link {
+    @apply mt-1 flex items-center gap-1 text-sm opacity-60 hover:opacity-100 hover:text-skin-accent transition-opacity sm:mt-0;
+  }
+  .privacy-icon {
+    @apply h-4 w-4 fill-current flex-shrink-0;
+  }
+  .privacy-label {
     @apply hidden sm:inline;
   }
 </style>
