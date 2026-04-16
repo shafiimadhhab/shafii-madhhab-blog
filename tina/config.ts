@@ -12,17 +12,22 @@ const searchIndexerToken =
   process.env.TINA_SEARCH_INDEXER_TOKEN ||
   "";
 
-const search = searchIndexerToken
-  ? {
-      tina: {
-        indexerToken: searchIndexerToken,
-        stopwordLanguages: ["deu", "eng"],
-        fuzzyEnabled: true,
-      },
-      indexBatchSize: 100,
-      maxSearchIndexFieldLength: 180,
-    }
-  : undefined;
+const searchUiConfig = {
+  tina: {
+    stopwordLanguages: ["deu", "eng"],
+    fuzzyEnabled: true,
+  },
+};
+
+const search = {
+  ...searchUiConfig,
+  tina: {
+    ...searchUiConfig.tina,
+    ...(searchIndexerToken ? { indexerToken: searchIndexerToken } : {}),
+  },
+  indexBatchSize: 100,
+  maxSearchIndexFieldLength: 180,
+};
 
 type PostCollectionUiItem = {
   _sys?: {
