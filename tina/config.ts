@@ -7,6 +7,36 @@ const branch =
   process.env.HEAD ||
   "main";
 
+const searchIndexerToken =
+  process.env.TINA_SEARCH_TOKEN ||
+  process.env.TINA_SEARCH_INDEXER_TOKEN ||
+  "";
+
+const search = searchIndexerToken
+  ? {
+      tina: {
+        indexerToken: searchIndexerToken,
+        stopwordLanguages: ["deu", "eng"],
+        fuzzyEnabled: true,
+      },
+      indexBatchSize: 100,
+      maxSearchIndexFieldLength: 180,
+    }
+  : undefined;
+
+type PostCollectionUiItem = {
+  _sys?: {
+    filename?: string;
+  };
+  category?: string[];
+  date?: string;
+  draft?: boolean;
+  postslug?: string;
+  published?: boolean;
+  slug?: string;
+  title?: string;
+};
+
 export default defineConfig({
   branch,
 
@@ -25,6 +55,8 @@ export default defineConfig({
       publicFolder: "public",
     },
   },
+  // TinaCloud search stays opt-in so builds keep working until the indexer token is set.
+  search,
   // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
@@ -40,6 +72,7 @@ export default defineConfig({
             label: "Titel",
             isTitle: true,
             required: true,
+            searchable: true,
           },
           {
             type: "string",
@@ -49,42 +82,50 @@ export default defineConfig({
               component: "textarea",
             },
             required: true,
+            searchable: true,
+            maxSearchIndexFieldLength: 280,
           },
           {
             type: "datetime",
             name: "date",
             label: "Veroeffentlichungsdatum",
             required: true,
+            searchable: false,
           },
           {
             type: "boolean",
             name: "published",
             label: "Veroeffentlicht",
             required: false,
+            searchable: false,
           },
           {
             type: "boolean",
             name: "draft",
             label: "Entwurf",
             required: false,
+            searchable: false,
           },
           {
             type: "boolean",
             name: "featured",
             label: "Hervorgehoben",
             required: false,
+            searchable: false,
           },
           {
             type: "string",
             name: "author",
             label: "Verfasser",
             required: false,
+            searchable: false,
           },
           {
             type: "image",
             name: "image",
             label: "Titelbild",
             required: false,
+            searchable: false,
           },
           {
             type: "string",
@@ -92,6 +133,7 @@ export default defineConfig({
             label: "Slug",
             description: "Optionaler URL-Slug mit fuehrendem Slash, z. B. /witr.",
             required: false,
+            searchable: true,
           },
           {
             type: "string",
@@ -99,6 +141,7 @@ export default defineConfig({
             label: "Legacy Post-Slug",
             description: "Optionales Alt-Feld fuer den URL-Slug.",
             required: false,
+            searchable: false,
           },
           {
             type: "string",
@@ -106,18 +149,21 @@ export default defineConfig({
             name: "category",
             label: "Kategorien",
             required: false,
+            searchable: true,
           },
           {
             type: "string",
             list: true,
             name: "tags",
             label: "Schlagwoerter",
+            searchable: true,
           },
           {
             type: "string",
             name: "type",
             label: "Legacy Typ",
             required: false,
+            searchable: false,
           },
           {
             type: "string",
@@ -125,6 +171,7 @@ export default defineConfig({
             name: "post_format",
             label: "Legacy Post-Format",
             required: false,
+            searchable: false,
           },
           {
             type: "string",
@@ -132,22 +179,25 @@ export default defineConfig({
             name: "timeline_notification",
             label: "Legacy Timeline Notification",
             required: false,
+            searchable: false,
           },
           {
             type: "rich-text",
             label: "Inhalt",
             name: "body",
             isBody: true,
+            searchable: true,
+            maxSearchIndexFieldLength: 2000,
           },
         ],
         ui: {
-          router: ({ document }) => {
+          router: ({ document }: { document: PostCollectionUiItem }) => {
             const rawSlug =
-              document.slug || document.postslug || document._sys.filename;
+              document.slug || document.postslug || document._sys?.filename;
             const normalized = String(rawSlug).replace(/^\/+|\/+$/g, "");
             return `/${normalized}`;
           },
-          itemProps: (item) => {
+          itemProps: (item: PostCollectionUiItem) => {
             const status = item.draft
               ? "📝 Entwurf"
               : item.published === false
@@ -164,7 +214,7 @@ export default defineConfig({
               label: `${item.title || item._sys?.filename || "—"}  [${status}${cats}${date}]`,
             };
           },
-        },
+        } as any,
       },
     ],
   },

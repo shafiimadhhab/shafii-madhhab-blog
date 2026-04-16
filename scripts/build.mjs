@@ -3,6 +3,8 @@ import { spawnSync } from "node:child_process";
 const clientId =
   process.env.PUBLIC_TINA_CLIENT_ID || process.env.TINA_CLIENT_ID || "";
 const token = process.env.TINA_TOKEN || "";
+const searchToken =
+  process.env.TINA_SEARCH_TOKEN || process.env.TINA_SEARCH_INDEXER_TOKEN || "";
 
 const missing = [];
 
@@ -30,6 +32,7 @@ if (missing.length > 0) {
 const env = {
   ...process.env,
   PUBLIC_TINA_CLIENT_ID: clientId,
+  TINA_SEARCH_TOKEN: searchToken,
 };
 
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
@@ -45,5 +48,17 @@ const run = (args) => {
   }
 };
 
-run(["exec", "tinacms", "build"]);
+const tinaBuildArgs = ["exec", "tinacms", "build"];
+
+if (!searchToken) {
+  console.warn("");
+  console.warn("TinaCMS search is not configured.");
+  console.warn(
+    "Skipping search indexing. Add TINA_SEARCH_TOKEN to enable TinaCloud content search."
+  );
+  console.warn("");
+  tinaBuildArgs.push("--skip-search-index");
+}
+
+run(tinaBuildArgs);
 run(["exec", "astro", "build"]);
