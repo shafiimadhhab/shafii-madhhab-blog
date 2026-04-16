@@ -29,6 +29,42 @@ const search = {
   maxSearchIndexFieldLength: 180,
 };
 
+const normalizePathValue = (value?: string) =>
+  typeof value === "string" ? value.replace(/^\/+|\/+$/g, "").trim() : "";
+
+const normalizePostFilename = (value: string) =>
+  value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/ß/g, "ss")
+    .replace(/['’`]/g, "")
+    .replace(/&/g, " and ")
+    .replace(/[^A-Za-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-")
+    .toLowerCase();
+
+const isLegacyWordPressSlug = (value: string) => /^\?p=\d+$/.test(value);
+
+const getPostFilenameSeed = (values: Record<string, unknown>) => {
+  const explicitSlug =
+    normalizePathValue(
+      typeof values.slug === "string" ? values.slug : undefined
+    ) ||
+    normalizePathValue(
+      typeof values.postslug === "string" ? values.postslug : undefined
+    );
+
+  if (explicitSlug && !isLegacyWordPressSlug(explicitSlug)) {
+    return explicitSlug;
+  }
+
+  return typeof values.title === "string" ? values.title : "post";
+};
+
+const getPostFilename = (values: Record<string, unknown>) =>
+  normalizePostFilename(getPostFilenameSeed(values)) || "post";
+
 type PostCollectionUiItem = {
   _sys?: {
     filename?: string;
@@ -196,30 +232,20 @@ export default defineConfig({
           },
         ],
         ui: {
+          filename: {
+            parse: (filename: string) => normalizePostFilename(filename) || "post",
+            slugify: (values: Record<string, unknown>) => getPostFilename(values),
+            readonly: true,
+            description:
+              "Wird automatisch aus Slug oder Titel erzeugt, damit die Dateiliste lesbar bleibt.",
+          },
           router: ({ document }: { document: PostCollectionUiItem }) => {
             const rawSlug =
               document.slug || document.postslug || document._sys?.filename;
             const normalized = String(rawSlug).replace(/^\/+|\/+$/g, "");
             return `/${normalized}`;
           },
-          itemProps: (item: PostCollectionUiItem) => {
-            const status = item.draft
-              ? "📝 Entwurf"
-              : item.published === false
-                ? "🔒 Unveröffentlicht"
-                : "✅ Veröffentlicht";
-            const cats =
-              Array.isArray(item.category) && item.category.length > 0
-                ? ` · ${item.category.join(", ")}`
-                : "";
-            const date = item.date
-              ? ` · ${new Date(item.date).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" })}`
-              : "";
-            return {
-              label: `${item.title || item._sys?.filename || "—"}  [${status}${cats}${date}]`,
-            };
-          },
-        } as any,
+        },
       },
     ],
   },
