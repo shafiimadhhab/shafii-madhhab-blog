@@ -30,7 +30,7 @@ export default defineConfig({
     collections: [
       {
         name: "post",
-        label: "Beitraege",
+        label: "Beiträge",
         path: "src/content/posts",
         format: "mdx",
         fields: [
@@ -146,6 +146,23 @@ export default defineConfig({
               document.slug || document.postslug || document._sys.filename;
             const normalized = String(rawSlug).replace(/^\/+|\/+$/g, "");
             return `/${normalized}`;
+          },
+          itemProps: (item) => {
+            const status = item.draft
+              ? "📝 Entwurf"
+              : item.published === false
+                ? "🔒 Unveröffentlicht"
+                : "✅ Veröffentlicht";
+            const cats =
+              Array.isArray(item.category) && item.category.length > 0
+                ? ` · ${item.category.join(", ")}`
+                : "";
+            const date = item.date
+              ? ` · ${new Date(item.date).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" })}`
+              : "";
+            return {
+              label: `${item.title || item._sys?.filename || "—"}  [${status}${cats}${date}]`,
+            };
           },
         },
       },
