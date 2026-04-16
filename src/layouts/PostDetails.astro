@@ -3,16 +3,22 @@ import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
+import TinaPostForm from "@components/TinaPostForm";
 import Datetime from "@components/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import { SITE } from "@config";
+import client from "../../tina/__generated__/client";
 
 export interface Props {
   post: CollectionEntry<"posts">;
 }
 
 const { post } = Astro.props;
+
+const tinaQuery = await client.queries.post({
+  relativePath: post.id,
+});
 
 const { title, author, description, image, postslug, date, tags } = post.data;
 
@@ -35,6 +41,12 @@ const einleitung: boolean = false;
   canonicalURL={SITE.website + "/" + postslug}
 >
   <Header />
+  <TinaPostForm
+    client:only="react"
+    query={tinaQuery.query}
+    variables={tinaQuery.variables}
+    data={tinaQuery.data}
+  />
   <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"
