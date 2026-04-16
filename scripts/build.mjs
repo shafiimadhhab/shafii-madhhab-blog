@@ -48,7 +48,7 @@ const run = (args) => {
   }
 };
 
-const tinaBuildArgs = ["exec", "tinacms", "build"];
+const tinaBuildArgs = ["exec", "tinacms", "build", "--skip-cloud-checks"];
 
 if (!searchToken) {
   console.warn("");
